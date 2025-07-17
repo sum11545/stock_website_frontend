@@ -28,7 +28,7 @@ const Reports = () => {
   useEffect(() => {
     if (symbol.length > 1) {
       axios
-        .get(`http://localhost:3000/symbols?q=${symbol}`)
+        .get(`https://stocks-website-26e1.onrender.com/symbols?q=${symbol}`)
         .then((res) => setSuggestions(res.data))
         .catch((err) => console.error("Suggestions error:", err));
     } else {
@@ -41,7 +41,7 @@ const Reports = () => {
     if (!date) return alert("Select a date");
     try {
       const res = await axios.get(
-        `http://localhost:3000/bhavCopyReportNew52High/${date}`
+        `https://stocks-website-26e1.onrender.com/bhavCopyReportNew52High/${date}`
       );
       setReportData(res.data.newHighs || []);
       setPredictions([]);
@@ -55,7 +55,7 @@ const Reports = () => {
     if (!date) return alert("Select a date");
     try {
       const res = await axios.get(
-        `http://localhost:3000/bhavCopyReportNew52Low/${date}`
+        `https://stocks-website-26e1.onrender.com/bhavCopyReportNew52Low/${date}`
       );
       setReportData(res.data.newHighs || []);
       setPredictions([]);
@@ -69,7 +69,7 @@ const Reports = () => {
     if (!symbol || !date) return alert("Enter symbol and date");
     try {
       const res = await axios.get(
-        `http://localhost:3000/oneMonthHigh/${date}?SYMBOL=${symbol}`
+        `https://stocks-website-26e1.onrender.com/oneMonthHigh/${date}?SYMBOL=${symbol}`
       );
       setReportData([res.data]);
       setPredictions([]);
@@ -83,7 +83,7 @@ const Reports = () => {
     if (!symbol || !date) return alert("Enter symbol and date");
     try {
       const res = await axios.get(
-        `http://localhost:3000/oneMonthLow/${date}?SYMBOL=${symbol}`
+        `https://stocks-website-26e1.onrender.com/oneMonthLow/${date}?SYMBOL=${symbol}`
       );
       setReportData([res.data]);
       setPredictions([]);
@@ -97,7 +97,7 @@ const Reports = () => {
     if (!symbol || !date) return alert("Enter symbol and date");
     try {
       const res = await axios.get(
-        `http://localhost:3000/6DaysTrend/${date}?SYMBOL=${symbol}`
+        `https://stocks-website-26e1.onrender.com/6DaysTrend/${date}?SYMBOL=${symbol}`
       );
       setReportData([res.data]);
       setPredictions([]);
@@ -111,7 +111,7 @@ const Reports = () => {
     if (!symbol || !date) return alert("Enter symbol and date");
     try {
       const res = await axios.get(
-        `http://localhost:3000/13DaysTrend/${date}?SYMBOL=${symbol}`
+        `https://stocks-website-26e1.onrender.com/13DaysTrend/${date}?SYMBOL=${symbol}`
       );
       setReportData([res.data]);
       setPredictions([]);
@@ -124,10 +124,13 @@ const Reports = () => {
   const predictClosePrice = async () => {
     if (!symbol || !date) return alert("Enter symbol and date");
     try {
-      const res = await axios.post("http://localhost:3000/predictClosePrice", {
-        symbol,
-        date,
-      });
+      const res = await axios.post(
+        "https://stocks-website-26e1.onrender.com/predictClosePrice",
+        {
+          symbol,
+          date,
+        }
+      );
       setPredictions(res.data.predictions || []);
       setReportData([]);
     } catch (err) {

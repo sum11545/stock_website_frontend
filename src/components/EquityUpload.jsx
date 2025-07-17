@@ -50,7 +50,10 @@ const EquityUpload = () => {
     formData.append("file", file2);
     formData.append("date", date2);
     try {
-      await axios.post("https://stocks-website-26e1.onrender.com/Nifty500Upload", formData);
+      await axios.post(
+        "https://stocks-website-26e1.onrender.com/Nifty500Upload",
+        formData
+      );
       setDate1("");
       setFile1(null);
       toast.success("Upload Sucess");
@@ -66,7 +69,10 @@ const EquityUpload = () => {
     formData.append("file", file3);
     formData.append("date", date3);
     try {
-      await axios.post("https://stocks-website-26e1.onrender.com/AllIndicesUpload", formData);
+      await axios.post(
+        "https://stocks-website-26e1.onrender.com/AllIndicesUpload",
+        formData
+      );
       toast.success("File uploaded!");
     } catch (err) {
       alert("Upload 3 failed!");
@@ -81,7 +87,10 @@ const EquityUpload = () => {
     formData.append("file", file4);
     formData.append("date", date4);
     try {
-      await axios.post("https://stocks-website-26e1.onrender.com/bseSensexUpload", formData);
+      await axios.post(
+        "https://stocks-website-26e1.onrender.com/bseSensexUpload",
+        formData
+      );
       toast.success("File 4 uploaded!");
     } catch (err) {
       alert("Upload 4 failed!");
