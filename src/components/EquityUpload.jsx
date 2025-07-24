@@ -3,6 +3,83 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  FileUp,
+  CalendarDays,
+  Trash2,
+  UploadCloud,
+  FileCheck2,
+  FileX2,
+  ArrowLeftCircle,
+} from "lucide-react";
+
+const UploadCard = ({
+  title,
+  file,
+  setFile,
+  date,
+  setDate,
+  onUpload,
+  onReset,
+  disabled,
+  icon: Icon,
+}) => (
+  <div className="p-6 rounded-xl shadow-xl space-y-4 bg-gray-800 text-gray-100 hover:shadow-2xl transition-shadow duration-300">
+    <div className="flex items-center gap-3">
+      <Icon className="text-teal-400" />
+      <h2 className="font-bold text-xl">{title}</h2>
+    </div>
+
+    <div className="flex flex-col gap-2">
+      <label className="flex items-center gap-2 text-sm text-gray-300">
+        <FileUp size={16} className="text-blue-400" />
+        Select CSV File:
+      </label>
+      <input
+        type="file"
+        onChange={(e) => setFile(e.target.files[0])}
+        className="bg-gray-700 border border-gray-600 text-white p-2 rounded"
+      />
+      {file && (
+        <p className="text-sm text-green-400 font-medium">
+          <FileCheck2 size={16} className="inline-block mr-1" />
+          {file.name}
+        </p>
+      )}
+
+      <label className="flex items-center gap-2 text-sm text-gray-300 mt-2">
+        <CalendarDays size={16} className="text-blue-400" />
+        Select Date:
+      </label>
+      <input
+        type="date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+        className="bg-gray-700 border border-gray-600 text-white p-2 rounded"
+      />
+    </div>
+
+    <div className="flex gap-4 pt-2">
+      <button
+        onClick={onUpload}
+        className={`flex items-center gap-2 px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white ${
+          disabled ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+        disabled={disabled}
+      >
+        <UploadCloud size={18} />
+        Upload
+      </button>
+      <button
+        onClick={onReset}
+        className="flex items-center gap-2 px-4 py-2 rounded bg-yellow-500 hover:bg-yellow-600 text-white"
+      >
+        <Trash2 size={18} />
+        Cancel
+      </button>
+    </div>
+  </div>
+);
 
 const EquityUpload = () => {
   const navigate = useNavigate();
@@ -20,8 +97,7 @@ const EquityUpload = () => {
   const [date4, setDate4] = useState("");
 
   const uploadFile1 = async () => {
-    if (!file1 || !date1)
-      return alert("Please select file and date for BhavCopy");
+    if (!file1 || !date1) return;
     const formData = new FormData();
     formData.append("csvFile", file1);
     formData.append("date", date1);
@@ -30,22 +106,16 @@ const EquityUpload = () => {
         "https://stocks-website-26e1.onrender.com/BhavCopyUpload",
         formData
       );
-      console.log(res);
-
-      if (res.status === 201) {
-        toast.success("BhavCopy Uploaded");
-      } else {
-        toast.warning(res.data || "Upload issue");
-      }
+      toast.success(
+        res.status === 201 ? "BhavCopy Uploaded" : res.data || "Upload issue"
+      );
     } catch (err) {
-      console.error(err);
-      alert("Upload 1 failed!");
+      toast.error("Upload 1 failed!");
     }
   };
 
   const uploadFile2 = async () => {
-    if (!file2 || !date2)
-      return alert("Please select file and date for Upload 2");
+    if (!file2 || !date2) return;
     const formData = new FormData();
     formData.append("file", file2);
     formData.append("date", date2);
@@ -54,17 +124,14 @@ const EquityUpload = () => {
         "https://stocks-website-26e1.onrender.com/Nifty500Upload",
         formData
       );
-      setDate1("");
-      setFile1(null);
-      toast.success("Upload Sucess");
+      toast.success("Nifty 500 Uploaded");
     } catch (err) {
-      alert("Upload 2 failed!");
+      toast.error("Upload 2 failed!");
     }
   };
 
   const uploadFile3 = async () => {
-    if (!file3 || !date3)
-      return alert("Please select file and date for Upload 3");
+    if (!file3 || !date3) return;
     const formData = new FormData();
     formData.append("file", file3);
     formData.append("date", date3);
@@ -73,160 +140,94 @@ const EquityUpload = () => {
         "https://stocks-website-26e1.onrender.com/AllIndicesUpload",
         formData
       );
-      toast.success("File uploaded!");
+      toast.success("All Indices Uploaded");
     } catch (err) {
-      alert("Upload 3 failed!");
+      toast.error("Upload 3 failed!");
     }
   };
 
   const uploadFile4 = async () => {
-    return toast.warn("This upload will available Soon ");
-    if (!file4 || !date4)
-      return alert("Please select file and date for Upload 4");
-    const formData = new FormData();
-    formData.append("file", file4);
-    formData.append("date", date4);
-    try {
-      await axios.post(
-        "https://stocks-website-26e1.onrender.com/bseSensexUpload",
-        formData
-      );
-      toast.success("File 4 uploaded!");
-    } catch (err) {
-      alert("Upload 4 failed!");
-    }
-  };
-
-  // Reset functions
-  const reset1 = () => {
-    setFile1(null);
-    setDate1("");
-  };
-  const reset2 = () => {
-    setFile2(null);
-    setDate2("");
-  };
-  const reset3 = () => {
-    setFile3(null);
-    setDate3("");
-  };
-  const reset4 = () => {
-    setFile4(null);
-    setDate4("");
+    toast.warn("BSE Sensex Upload Coming Soon");
+    return;
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto space-y-6">
-      <ToastContainer autoClose="2000" position="top-right" />
-      <h1 className="text-2xl font-bold text-center">Equity Upload</h1>
+    <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900 p-8">
+      <ToastContainer autoClose={2000} position="top-right" />
+      <h1 className="text-4xl font-bold text-center text-white mb-10">
+        📊 Equity Upload Portal
+      </h1>
 
-      {/* File 1 */}
-      <div className="border p-4 rounded bg-white shadow space-y-2">
-        <h2 className="font-semibold">Bhav Copy </h2>
-        <input type="file" onChange={(e) => setFile1(e.target.files[0])} />
-        <input
-          type="date"
-          value={date1}
-          onChange={(e) => setDate1(e.target.value)}
+      <div className="max-w-4xl mx-auto space-y-10">
+        <UploadCard
+          title="Bhav Copy Upload"
+          file={file1}
+          setFile={setFile1}
+          date={date1}
+          setDate={setDate1}
+          onUpload={uploadFile1}
+          onReset={() => {
+            setFile1(null);
+            setDate1("");
+          }}
+          disabled={!file1 || !date1}
+          icon={FileUp}
         />
-        <div className="flex gap-3">
+
+        <UploadCard
+          title="Nifty 500 Upload"
+          file={file2}
+          setFile={setFile2}
+          date={date2}
+          setDate={setDate2}
+          onUpload={uploadFile2}
+          onReset={() => {
+            setFile2(null);
+            setDate2("");
+          }}
+          disabled={!file2 || !date2}
+          icon={FileUp}
+        />
+
+        <UploadCard
+          title="All Indices Upload"
+          file={file3}
+          setFile={setFile3}
+          date={date3}
+          setDate={setDate3}
+          onUpload={uploadFile3}
+          onReset={() => {
+            setFile3(null);
+            setDate3("");
+          }}
+          disabled={!file3 || !date3}
+          icon={FileUp}
+        />
+
+        <UploadCard
+          title="BSE Sensex Upload"
+          file={file4}
+          setFile={setFile4}
+          date={date4}
+          setDate={setDate4}
+          onUpload={uploadFile4}
+          onReset={() => {
+            setFile4(null);
+            setDate4("");
+          }}
+          disabled={!file4 || !date4}
+          icon={FileX2}
+        />
+
+        <div className="text-center pt-6">
           <button
-            onClick={uploadFile1}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 mx-auto bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded shadow"
           >
-            Upload
-          </button>
-          <button
-            onClick={reset1}
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
-          >
-            Cancel
+            <ArrowLeftCircle size={20} />
+            Close
           </button>
         </div>
-      </div>
-
-      {/* File 2 */}
-      <div className="border p-4 rounded bg-white shadow space-y-2">
-        <h2 className="font-semibold">Nifty 500</h2>
-        <input type="file" onChange={(e) => setFile2(e.target.files[0])} />
-        <input
-          type="date"
-          value={date2}
-          onChange={(e) => setDate2(e.target.value)}
-        />
-        <div className="flex gap-3">
-          <button
-            onClick={uploadFile2}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Upload
-          </button>
-          <button
-            onClick={reset2}
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-
-      {/* File 3 */}
-      <div className="border p-4 rounded bg-white shadow space-y-2">
-        <h2 className="font-semibold">All Indices</h2>
-        <input type="file" onChange={(e) => setFile3(e.target.files[0])} />
-        <input
-          type="date"
-          value={date3}
-          onChange={(e) => setDate3(e.target.value)}
-        />
-        <div className="flex gap-3">
-          <button
-            onClick={uploadFile3}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Upload
-          </button>
-          <button
-            onClick={reset3}
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-
-      {/* File 4 */}
-      <div className="border p-4 rounded bg-white shadow space-y-2">
-        <h2 className="font-semibold">Bse Sensex</h2>
-        <input type="file" onChange={(e) => setFile4(e.target.files[0])} />
-        <input
-          type="date"
-          value={date4}
-          onChange={(e) => setDate4(e.target.value)}
-        />
-        <div className="flex gap-3">
-          <button
-            onClick={uploadFile4}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Upload
-          </button>
-          <button
-            onClick={reset4}
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-
-      <div className="text-center">
-        <button
-          onClick={() => navigate("/")}
-          className="bg-red-500 text-white px-6 py-2 rounded"
-        >
-          Close
-        </button>
       </div>
     </div>
   );
