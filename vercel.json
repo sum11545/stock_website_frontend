@@ -1,0 +1,8 @@
+{
+  "rewrites":  [
+    {"source": "/(.*)", "destination": "/"},
+    {"source":"/uploads","destination":"/uploads"},
+    {"source":"/equityuploads","destination":"/equityuploads"},
+    {"source":"/reports","destination":"/reports"}
+  ]
+}
