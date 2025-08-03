@@ -22,6 +22,7 @@ const UploadCard = ({
   onUpload,
   onReset,
   disabled,
+  // eslint-disable-next-line no-unused-vars
   icon: Icon,
 }) => (
   <div className="p-6 rounded-xl shadow-xl space-y-4 bg-gray-800 text-gray-100 hover:shadow-2xl transition-shadow duration-300">
@@ -110,7 +111,7 @@ const EquityUpload = () => {
         res.status === 201 ? "BhavCopy Uploaded" : res.data || "Upload issue"
       );
     } catch (err) {
-      toast.error("Upload 1 failed!");
+      toast.error("Upload 1 failed!", err);
     }
   };
 
@@ -126,7 +127,7 @@ const EquityUpload = () => {
       );
       toast.success("Nifty 500 Uploaded");
     } catch (err) {
-      toast.error("Upload 2 failed!");
+      toast.error("Upload 2 failed!", err);
     }
   };
 
@@ -142,7 +143,7 @@ const EquityUpload = () => {
       );
       toast.success("All Indices Uploaded");
     } catch (err) {
-      toast.error("Upload 3 failed!");
+      toast.error("Upload 3 failed!", err);
     }
   };
 
